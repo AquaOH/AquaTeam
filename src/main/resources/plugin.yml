@@ -1,0 +1,65 @@
+name: AquaTeam
+version: '1.0-SNAPSHOT'
+main: cc.aquaoh.aquaTeam.AquaTeam
+api-version: '1.20'
+depend:
+  - TAB
+  - PlaceholderAPI
+  - FastAsyncWorldEdit
+
+commands:
+  aquateam:
+    description: AquaTeam 插件的管理命令
+    usage: /<command> [subcommand]
+    aliases: [at]  # 别名at
+    subcommands:
+      reload:
+        description: 重载插件配置
+        usage: /aquateam reload
+        permission: aquateam.reload
+        permission-message: 你没有权限重载插件。
+      setrespawn:
+        description: 设置结构内重生点
+        usage: /aquateam setrespawn
+        permission: aquateam.setrespawn
+        permission-message: 你没有权限设置结构内出生点位置。
+      respawnall:
+        description: 重生所有玩家
+        usage: /aquateam respawnall
+        permission: aquateam.respawnall
+        permission-message: 你没有权限重生所有玩家。
+      match:
+        description: 匹配界面
+        usage: /aquateam match
+        aliases:
+          - match
+      paste:
+        description: 创建一个指定数量的队伍区域。
+        usage: /aquateam paste <队伍数量>
+        permission: aquateam.paste
+        permission-message: 你没有权限使用此命令。
+      forcefinish:
+        description: 创建一个指定数量的队伍区域。
+        usage: /aquateam forcefinish <队伍数量>
+        permission: aquateam.forcefinish
+        permission-message: 你没有权限使用此命令。
+
+permissions:
+  aquateam.admin:
+    description: 允许使用 AquaTeam 插件的管理命令
+    default: op
+  aquateam.reload:
+    description: 允许重载 AquaTeam 插件
+    default: op
+  aquateam.setrespawn:
+    description: 允许设置出生点位置
+    default: op
+  aquateam.respawnall:
+    description: 允许设置出生带你
+    default: op
+  aquateam.paste:
+    description: 直接粘贴结构
+    default: op
+  aquateam.forcefinish:
+    description: 强制结束游戏
+    default: op

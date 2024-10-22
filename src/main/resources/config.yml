@@ -1,0 +1,463 @@
+# 此配置为延迟更新，需使用/aquateam reload刷新
+# 支持placeholder变量
+
+prefix: "&b&l[AquaTeam]"
+
+
+
+# 启动倒计时 配置
+# 下面小游戏模块的priority参数为0的才会在timer倒计时完成后被执行
+# 如果启用loop,所有小游戏模块都达成完成条件后才会开始下一个倒计时
+timer:
+  # 启用还是关闭
+  enable: true
+
+  # 总倒计时，单位秒
+  totalTime: 60
+
+  # 是否在达不到maxPlayerPerTeam时候停止倒计时
+  emptyStop: true
+
+  # 是否无限循环倒计时（如果为否，只在开局时执行一次）
+  loop: true
+
+  # 发送聊天倒计时提醒的时间
+  chatTipsTime:
+    - 55
+    - 30
+  # 发送Title倒计时提醒的时间
+  titleTipsTime:
+    - 10
+    - 9
+    - 8
+    - 7
+    - 6
+    - 5
+    - 4
+    - 3
+    - 2
+    - 1
+
+  # 事件与命令
+  # 不特地标明，否则都是对单执行，即触发该操作的玩家
+  event:
+    # 全体命令
+    onTimeCountdown:  # 当倒计时执行完毕
+      # 在队伍内
+      in:
+        # 以玩家身份执行的命令
+        player:
+          - ""
+        # 以终端身份执行的命令
+        console:
+          - ""
+      # 不在队伍内
+      out:
+        player:
+          - ""
+        console:
+          - ""
+
+  # 消息（对全体进行通知）（除非特意标注，不然消息都是对单）
+  messages:
+    onPlayerJoin:
+      success: "{$prefix} &a达到匹配人数条件，请输入命令/aquateam match打开匹配面板"
+      fail: "{$prefix} &c未达到匹配人数条件，请耐心等待..."
+    onPlayerQuit:
+      fail: "{$prefix} &c由于玩家退出，未达到匹配人数条件，已停止匹配..."
+    onTimeCountdown: "{$prefix} &a游戏准备必要资源中...请耐心等待一段时间"  # 倒计时结束后触发
+    chatTips: "{$prefix} &a还剩 &6{$left} &a秒就要开始了，请尽快选择队伍~~"
+    titleTips: 
+      title: "&a还剩 &6{$left} 秒"
+      subtitle: "&a请尽快选择队伍~~"
+      fadeIn: 0  # 渐入时间，单位tick
+      stay: 15 # 显示时间，单位tick
+      fadeOut: 0 # 渐出时间，单位tick
+    
+
+
+
+
+# 组队 配置
+team:
+  # 启用还是关闭
+  enable: true
+
+  # 队友伤害，默认关闭
+  friendlyFire: false
+
+  # 整局游戏最大队伍数，最多15队
+  maxTeam: 8
+
+  # 一个队伍的人数上限
+  maxPlayerPerTeam: 2
+
+  # 退出多少秒后将玩家从队伍中剔除
+  quitExpiredTime: 60
+
+  # 玩家未选择队伍时的prefix(TAB NameTag)
+  freePrefix: "&#9398a4[空闲]"
+
+  # 如果玩家在游戏开始后加入
+  # 为true未选择队伍的玩家是否随机传送到任意一名选手处并开启观察者模式？
+  # 为false.传送到主城,不设置游戏模式
+  midtermJoin: true
+
+  # 阶段名，用于计分板{$stage}显示
+  stage: "匹配阶段"
+
+  # 事件与命令
+  event:
+    # 当玩家选择队伍时
+    onPlayerChooseTeam:
+      player:
+        - ""
+      console:
+        - ""
+    
+    # 当玩家加入队伍失败时
+    onPlayerChooseTeamError:
+      player:
+        - ""
+      console:
+        - ""
+    
+    # 当玩家因为离开时间过长而被踢出队伍时
+    onQuitExpiredTime: 
+      console:
+        - ""
+    
+    # 当玩家在游戏匹配时加入
+    onWaitJoin:
+      in:
+        player:
+          - ""
+        console:
+          - "gamemode adventure %player_name%"
+          - "clear %player_name%"
+      out:
+        player:
+          - ""
+        console:
+          - "gamemode adventure %player_name%"
+          - "clear %player_name%"
+    
+    # 当玩家在游戏开始后中途加入
+    onMidtermJoin:
+      # 在队伍内
+      in:
+        player:
+          - ""
+        console:
+          - "clear %player_name%"
+      out:
+        player:
+          - ""
+        console:
+          - "clear %player_name%"
+
+  
+  # 关联的GUI设置
+  gui:
+    # 菜单标题
+    title: "&b&l匹配菜单"
+
+    # 菜单行数
+    rows: 5
+
+    teamIcon:
+      # GUI里队伍图标
+      material:
+        - RED_CONCRETE        # 红队
+        - GREEN_CONCRETE      # 绿队
+        - BLUE_CONCRETE       # 蓝队
+        - YELLOW_CONCRETE     # 黄队
+        - CYAN_CONCRETE       # 青队
+        - MAGENTA_CONCRETE    # 洋红队
+        - ORANGE_CONCRETE     # 橙队
+        - PINK_CONCRETE       # 粉队
+        - PURPLE_CONCRETE     # 紫队
+        - BROWN_CONCRETE      # 棕队
+        - LIGHT_BLUE_CONCRETE # 淡蓝队
+        - LIME_CONCRETE       # 亮绿队
+        - WHITE_CONCRETE      # 白队
+        - LIGHT_GRAY_CONCRETE # 浅灰队
+        - GRAY_CONCRETE       # 灰队
+
+      # GUI里的队伍显示名称(同时在TAB Nametag Scoreboard里也会使用)(也即{$team})
+      displayNames :
+        - "{#FF0000}[红队]"      # RED
+        - "{#00FF00}[绿队]"      # GREEN
+        - "{#0000FF}[蓝队]"      # BLUE
+        - "{#FFFF00}[黄队]"      # YELLOW
+        - "{#00FFFF}[青队]"      # CYAN
+        - "{#FF00FF}[洋红队]"    # MAGENTA
+        - "{#FFA500}[橙队]"      # ORANGE
+        - "{#FFC0CB}[粉队]"      # PINK
+        - "{#800080}[紫队]"      # PURPLE
+        - "{#8B4513}[棕队]"      # BROWN
+        - "{#ADD8E6}[淡蓝队]"    # LIGHT_BLUE
+        - "{#32CD32}[亮绿队]"    # LIME
+        - "{#FFFFFF}[白队]"      # WHITE
+        - "{#D3D3D3}[浅灰队]"    # LIGHT_GRAY
+        - "{#808080}[灰队]"      # GRAY
+
+      
+      # GUI里的队伍图标lore
+      lore: 
+        - "&6&l左键 &a点击选择 &f{$team}"
+        - "&6&l右键 &c点击离开 &f{$team}"
+
+      # GUI里的队伍图标存放顺序
+      index:
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 20
+        - 21
+        - 22
+        - 23
+        - 24
+        - 29
+        - 30
+        - 31
+        - 32
+        - 33
+    
+    # 其他图标
+    
+    fillIcon:
+      material: "WHITE_STAINED_GLASS_PANE"
+      displayName: "&7分割线"
+      lore: "&7我是一条分割线~~~"
+
+  # 关联的Scoreboard
+  scoreboard: 
+    enable: true
+    title: "&b&l ECNUMC 小游戏服"
+    head:
+      - "&6当前阶段：{$stage}"
+    body: "&l{$team}: {$playernum}人 {$additional}" # 自动根据队伍数量拓展 请写单行即可
+    foot: 
+      - "&b&l游玩愉快"
+
+  messages:
+    openMenuFailed: "{$prefix} &c抱歉！开启菜单失败！可能当前玩家数量不足或者游戏已开始！"
+    onPlayerChooseTeam: "{$prefix} &a你选择了 &f{$team} &a!"
+    onPlayerChooseTeamError: "{$prefix} &c加入 &f{$team} &c失败! 队伍已满！"
+    onQuitExpiredTime: "{$prefix} &a玩家 &6{$player} &a离开时间过长，被移出 &f{$team} &a!"
+    onWaitJoin: "{$prefix} &a游戏正在匹配中！输入/aquateam match选择队伍！"
+    onMidtermJoin: "{$prefix} &c游戏已经开始！"
+
+# 所有模块都执行完毕后的操作
+finish:
+  rewards:
+    # 最终获胜队伍取决于最后执行的模块
+    # 各阶段的获胜队伍奖励
+    luckyblock:
+      enable: true
+      winingTeam:
+        - "money give %player_name% 200" # 对队伍里每个人操作，都是Console执行,胜利队伍不领取others奖励
+      others:
+        - "money give %player_name% 50"
+    pvp:
+      enable: true
+      winingTeam:
+        - "money give %player_name% 1000" # 对队伍里每个人操作，都是Console执行,胜利队伍不领取others奖励
+      others:
+        - "money give %player_name% 500"
+
+  
+  messages:
+    onGameFinish: "{$prefix} &a游戏结束！各阶段的胜出队伍是 &f{$team}！"
+    
+# 以下前提都是开启了team功能
+
+# 幸运方块 配置
+luckyblock:
+  # 启用还是关闭
+  enable: true
+
+  # 阶段名，用于计分板{$stage}显示
+  stage: "幸运方块"
+
+  # 执行顺序
+  # 数字越小，越优先执行
+  # 当一个小游戏模块达成完成条件时才会执行下一个
+  priority: 0 
+
+  # 模块结束条件
+  # 0为只要有玩家到终点即可
+  # 1为必须全部玩家到终点才行
+  endType: 1
+
+  # 与worldedit插件关联的结构复制部分
+  # luckyblock 模块一定会先执行worldedit复制，传送玩家到重生点，然后结束时清空结构
+
+
+  worldedit:
+    # 被复制的结构来自于哪个世界
+    # 主世界（Overworld）: "world"
+    # 下界（Nether）: "world_nether"
+    # 末地（The End）: "world_the_end"
+    worldFrom: "world"
+
+    # [x,y,z]
+    # 按照XZ绝对值均最小到绝对值均最大的对角线，且按Xhigh>Xlow顺序
+    pointLow: [114, 51, 114]
+    pointHigh: [314, 114, 314]
+
+    # 想复制到的世界
+    worldTo: "world"
+
+    # 粘贴点
+    pointPaste: [-2000, 151, -2000]
+
+    # 黏贴方向
+    # 可选 N S E W
+
+    # N (z-)
+    # S (z+)
+    # E (x+)
+    # W (x-)
+    direction: N
+
+    # 粘贴间隔
+    # 结构体间的绝对间隔，已自动计算结构体大小
+    gap: 50
+
+    # 结构内玩家重生点
+    pointRespawn: [114, 114, 114]
+
+    # 重生点的yaw和pitch
+    yaw: 0.1
+    pitch: 0.1
+
+    # 结束内比赛结束点
+    pointEnd: [314, 114, 314]
+  
+  # 事件与命令
+  event:
+    # 当游戏开始时
+    onStartLuckyBlock:
+      player:
+        - ""
+      console:
+        - "gamemode survival %player_name%"
+
+
+    # 当游戏结束时
+    onEndLuckyBlock:
+      player:
+        - ""
+      console:
+        - "gamemode survival %player_name%"
+  
+  # 消息
+  messages:
+    onStartLuckyBlock: "{$prefix} &a幸运游戏已经开始，努力冲到终点吧！"
+    onEndLuckyBlock: "{$prefix} &c幸运方块游戏已经结束！"
+    onPersonEndLuckyBlock: "{$prefix} &a恭喜你完成幸运方块游戏！"
+    onTeamEndLuckyBlock: "{$prefix} &a恭喜{$team}完成幸运方块游戏！"
+    onWiningTeam: "{$prefix} &a&l恭喜{$team}最先完成幸运方块游戏！"
+
+
+
+# pvp 配置
+pvp:
+  enable: true
+
+  # 执行顺序
+  # 数字越小，越优先执行
+  # 当一个小游戏模块达成完成条件时才会执行下一个
+  priority: 1
+
+  # 阶段名，用于计分板{$stage}显示
+  stage: "PVP"
+
+  # 模块结束条件
+  # 其它模式后面再加吧...
+  # 1为必须杀掉其他队伍全部玩家
+  endType: 1
+
+
+  # 整个队伍一共可以重生几次
+  # 如果玩家死亡重生，自动扣除队伍重生次数
+  # 为0时队伍内玩家不再能重生
+  maxTeamRespawnLife: 4
+  
+  # 玩家可以重生几次
+  # 如果设置的{值*队伍内玩家数}大于maxTeamRespawnLife可以体会到借命（
+  # 如果设置的{值*队伍内玩家数}小于等于maxTeamRespawnLife是相当于舍弃了maxTeamRespawnLife功能
+  maxPlayerRespawnLife: 2
+
+  # 如果启用玩家会在结构内下方worldedit内的结构内重生点随机复活
+  randomRespawn: true
+
+  # 与worldedit插件关联的结构复制部分
+  # pvp 模块一定会先执行worldedit复制，传送玩家到重生点，然后结束时清空结构
+  # pvp 模块不需要复制多个pvp结构，只需要一个即可，相应的需要设置重生点
+  worldedit:
+    # 被复制的结构来自于哪个世界
+    # 主世界（Overworld）: "world"
+    # 下界（Nether）: "world_nether"
+    # 末地（The End）: "world_the_end"
+    worldFrom: "world"
+
+    # [x,y,z]
+    # 按照XZ绝对值均最小到绝对值均最大的对角线，且按Xhigh>Xlow顺序
+    pointLow: [114, 51, 114]
+    pointHigh: [314, 114, 314]
+
+    # 想复制到的世界
+    worldTo: "world"
+
+    # 粘贴点
+    Pointpaste: [-2000, 151, -2000]
+
+    # 结构内玩家重生点
+    pointRespawn: 
+      - [114, 114, 114]
+      - [115, 114, 115]
+      - [116, 114, 116]
+      - [117, 114, 117]
+      - [118, 114, 118]
+      - [119, 114, 119]
+      - [120, 114, 120]
+      - [121, 114, 121]
+      - [122, 114, 122]
+      - [123, 114, 123]
+      - [124, 114, 124]
+      - [125, 114, 125]
+      - [126, 114, 126]
+      - [127, 114, 127]
+      - [128, 114, 128]
+
+  # 事件与命令
+  event:
+    # 当游戏开始时
+    onStartPVP:
+      player:
+        - ""
+      console:
+        - "gamemode survival %player_name%"
+    
+    # 当游戏结束时
+    onEndPVP:
+      player:
+        - ""
+      console:
+        - "gamemode adventure %player_name%"
+  
+  # 消息
+  messages:
+    onStartPVP: "{$prefix} &aPVP游戏已经开始，努力厮杀吧！"
+    onEndPVP: "{$prefix} &cPVP游戏已经结束！"
+    onPersonOut: "{$prefix} &c玩家{$player} 已被淘汰！"
+    onTeamOut: "{$prefix} &c{$team} 已被淘汰！"
+    onWiningTeam: "{$prefix} &a&l恭喜{$team}存活到最后！"
+    onPersonOutReasonMaxPlayerRespawnLife: "{$prefix} &c你已经用完所有重生机会，无法再重生。"
+    onPersonOutMaxTeamRespawnLife: "{$prefix} &c你的队伍已经用完所有重生机会，无法再重生。"
+    onPersonRespawn: "{$prefix} &a你已重生！你的剩余重生数: &b{$pLife}, &a队伍剩余重生数: &b{$tLife}"
